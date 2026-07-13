@@ -1,14 +1,11 @@
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
-import os
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    google_api_key=os.getenv("gemini_api_key")
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile"
 )
 
-response = llm.invoke("What is FastAPI?")
-
+response = llm.invoke("Hello, who are you?")
 print(response.content)
