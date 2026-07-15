@@ -1,0 +1,2 @@
+human|Hi, where is my order ID 1655 refund status?
+ai|Your refund will be credited within 2-3 working days.
