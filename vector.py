@@ -46,7 +46,7 @@ vector_store.add_documents(docs)
 
 result = vector_store.similarity_search_with_score(
     query="Who is the best player of RCB?",
-    k=1
+    k=2
 )
 
 print(result)
