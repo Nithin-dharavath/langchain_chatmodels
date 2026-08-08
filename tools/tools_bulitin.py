@@ -21,22 +21,44 @@
 
 #custum tool 
 
-from langchain_core.tools import tool
+# from langchain_core.tools import tool
 
-#step - 1 define function
+# #step - 1 define function
+# def addition(a, b):
+#     """add the a and b"""
+#     return (a+b)
+# #step-2 add type hinting
+# def addition(a:int, b:int) -> int:
+#     """add the a and b"""
+#     return (a+b)
+# #step-3 add the tool decorator
+# @tool
+# def addition(a:int, b:int) -> int:
+#     """add the a and b"""
+#     return (a+b)
+
+# result = addition.invoke({"a" : 50, "b" : 10})
+
+# print(addition.args_schema)
+
+##method -2 :suing the structuredTool##
+from langchain_core.tools import StructuredTool
+from pydantic import BaseModel, Field
+
+class additionInput(BaseModel):
+    a : int = Field(required=True, description="the frist number to multiply")
+    b : int = Field(required=True, description="add the second number")
+
 def addition(a, b):
-    """add the a and b"""
-    return (a+b)
-#step-2 add type hinting
-def addition(a:int, b:int) -> int:
-    """add the a and b"""
-    return (a+b)
-#step-3 add the tool decorator
-@tool
-def addition(a:int, b:int) -> int:
-    """add the a and b"""
-    return (a+b)
+    return(a+b)
 
-result = addition.invoke({"a" : 50, "b" : 10})
+addition_tool = StructuredTool.from_function(
+    func=addition,
+    name="addition",
+    description="add the both a and b",
+    args_schema=additionInput
+)
 
-print(addition.args_schema)
+result = addition_tool.invoke({"a" : 3, "b" : 5})
+
+print(result)
