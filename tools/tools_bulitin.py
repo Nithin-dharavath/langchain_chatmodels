@@ -61,3 +61,34 @@ addition_tool = StructuredTool.from_function(
 result = addition_tool.invoke({"a" : 3, "b" : 5})
 
 print(result)
+
+
+###method-3 using the basemodel##
+
+class additionInput(BaseModel):
+    a : int = Field(required=True, description="the frist number to multiply")
+    b : int = Field(required=True, description="add the second number")
+
+class additiontTool(BaseModel):
+    name: str = "addition"
+    description : str = "add the both a and b numbers"
+    args_schema: Type(BaseModel) = additionInput
+
+    def run(self, a: int, b: int) -> int:
+        return a+b
+
+addition_tool = additiontTool()
+
+result = addition_tool.invoke({"a" : 3, "b" : 5})
+
+##tool kit ##
+
+class mathToolkit:
+    def get_tools(self):
+        return [addition, addition_tool]
+
+tool_kit = mathToolkit()
+tools = tool_kit.get_tools()
+
+for tool in tools:
+    print(tool.name, tool.description)
